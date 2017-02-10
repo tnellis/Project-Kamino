@@ -1,0 +1,9 @@
+#left{
+	margin-left: 50px;
+	float:left;
+}
+
+#right{
+	margin-left: 300px;
+	float:left;
+}

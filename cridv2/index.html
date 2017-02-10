@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Web Application Manifest -->
+  <link rel="manifest" href="manifest.json">
+	<title>CRI</title>
+</head>
+
+<body>
+<div id="left">
+	<h2>Add a completed repair to the list</h2>
+	<form id="repairForm" action="#">
+	<!-- KACE Input Textbox -->
+    <div>
+      <label class="kacelabel" id="kace_input" for="kaceInput">KACE Ticket #: </label>
+      <input class="kaceinput" type="text" id="kaceInput">
+    </div>
+    <br />
+    <div>
+      <label class="districtlabel" id="district_input" for="districtInput">District: </label>
+      <input class="districtinput" type="text" id="districtInput">
+    </div>
+    <br />
+    <div>
+      <label class="cbmodellabel" id="cbmodel_input" for="cbmodelInput">Chromebook Model: </label>
+      <input class="cbmodelinput" type="text" id="cbmodelInput">
+    </div>
+    <br />
+    <div>
+      <label class="cbpartlabel" id="cbpart_input" for="cbpartInput">Chromebook Part: </label>
+      <input class="cbpartinput" type="text" id="cbpartInput">
+    </div>
+    <br />
+
+<!-- District Dropdown Menu 
+    <div>
+      <label class="desc" id="district_input" for="District">District: </label>
+        <div>
+          <select id="districtInput" name="District">
+            <option value="HA"> HA</option>
+            <option value="HL"> HL</option>
+            <option value="OA"> OA</option>
+            <option value="OP"> OP</option>
+            <option value="SA"> SA</option>
+            <option value="SL"> SL</option>
+          </select>
+        </div>
+    </div>
+    <br /> -->
+
+<!-- CBModel Dropdown Menu
+    <div>
+      <label class="desc" id="cbmodel_input" for="CBModel">Chromebook Model: </label>
+        <div>
+          <select id="cbmodelInput" name="CBModel">
+            <option value="dell11g1"> Dell 11 Gen 1</option>
+            <option value="dell11g2"> Dell 11 Gen 2</option>
+            <option value="lenovo11e"> Lenovo 11e</option>
+            <option value="lenovox131"> Lenovo x131</option>
+            <option value="acerc720"> Acer C720</option>
+            <option value="acercb311"> Acer CB311</option>
+          </select>
+        </div>
+    </div>
+    <br /> -->
+
+<!-- CBPart Dropdown Menu
+    <div>
+      <label class="desc" id="cbpart_input" for="CBPart">Chromebook Part: </label>
+        <div>
+          <select id="cbpartInput" name="CBPart">
+            <option value="lcd"> LCD</option>
+            <option value="keyboard"> Keyboard</option>
+            <option value="palmrest"> Palmrest</option>
+            <option value="touchpad"> Touchpad</option>
+            <option value="battery"> Battery</option>
+            <option value="bottom_case"> Bottom Case</option>
+          </select>
+        </div>
+    </div>
+    <br /> -->
+
+		<button id="submitBtn" onclick="submitForm()">Submit Repair</button>
+	</form>
+
+<div class="tableDiv" align="left">
+ <h2 id="kaceOutput">Submitted Repairs</h2>
+ 	<table>
+ 		<thead>
+ 			<tr>
+ 				<td><strong>Ticket #</strong></td>
+ 				<td><strong>District</strong></td>
+ 				<td><strong>Model</strong></td>
+ 				<td><strong>Part</strong></td>
+ 				<td><strong>Actions</strong></td>
+ 			</tr>
+ 		</thead>
+ 	<tbody id="table_body">
+ 	</tbody>
+ </table>
+</div>
+</div>
+
+<div id="right">
+	<h2>Add parts to inventory</h2>
+	<form id="partForm" action="#">
+		<div>
+      		<label class="cbmodelinvlabel" id="cbmodelinv_input" for="cbmodelinvInput">Chromebook Model: </label>
+      		<input class="cbmodelinvinput" type="text" id="cbmodelinvInput">
+    	</div>
+    	<br />
+    	<div>
+      		<label class="cbpartinvlabel" id="cbpartinv_input" for="cbpartinvInput">Part: </label>
+      		<input class="cbpartinvinput" type="text" id="cbpartinvInput">
+    	</div>
+    	<br />
+    	<div>
+      		<label class="quaninvlabel" id="quaninv_input" for="quaninvInput">Quantity: </label>
+      		<input class="quaninvinput" type="text" id="quaninvInput">
+    	</div>
+    	<br />
+    	<button id="submitinvBtn" onclick="submitinvForm()">Submit Inventory</button>
+</div>
+
+<div class="tableinvDiv" align="left">
+<h2 id="invOutput">Available Inventory</h2>
+	<table>
+		<thead>
+			<tr>
+				<td><strong>Model</strong></td>
+				<td><strong>Part</strong></td>
+				<td><strong>Quantity</strong></td>
+			</tr>
+		</thead>
+	<tbody id="invtable_body">
+	</tbody>
+</table>
+</div>
+</form>
+
+<!-- Firebase script for CRIDv2 -->
+<script src="https://www.gstatic.com/firebasejs/3.6.8/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyA15MHtP9zjcb3UqTgVVY5iGa70DTL8Zso",
+    authDomain: "cridv2-18293.firebaseapp.com",
+    databaseURL: "https://cridv2-18293.firebaseio.com",
+    storageBucket: "cridv2-18293.appspot.com",
+    messagingSenderId: "783799959399"
+  };
+  firebase.initializeApp(config);
+</script>
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
+<script src="scripts/main.js"></script>
+</body>
+</html>

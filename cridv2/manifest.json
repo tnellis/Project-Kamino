@@ -1,0 +1,7 @@
+{
+  "name": "Chromebook Repair Inventory",
+  "short_name": "Chromebook Repair",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait"
+}
