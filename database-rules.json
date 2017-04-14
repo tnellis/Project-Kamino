@@ -1,0 +1,6 @@
+{
+  "rules": {
+    ".read": "auth.token.email.endsWith('oaisd.org')",
+    ".write": "auth.token.email.endsWith('oaisd.org')"
+  }
+}

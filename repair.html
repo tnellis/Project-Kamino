@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Web Application Manifest -->
+  	<link rel="manifest" href="manifest.json">
+	<title>CRI</title>
+</head>
+
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/index.html"><img src="imgs/isd_logo.png" alt="CRI" style="width:128px;height:44px; padding-bottom: 10px;" href="/index.html"></a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/repair.html">Repair Dashboard</a></li>
+      <li><a href="/tbs.html">TBS Dashboard</a></li>
+    </ul>
+    <form class="form-inline">
+    <button align="right" id="sign-out" class="btn btn-primary navbar-right" onClick="signOut();">Sign Out</button>
+    </form>
+  </div>
+</nav>
+
+
+<div class="container-fluid">
+<div class="well row">
+<div class="col-sm-7 col-md-6">
+	<!-- <h6>Add a completed repair to the list:</h6> -->
+	<form id="repairForm" action="#" onsubmit="setTimeout(function () { window.location.reload(); }, 10)">
+	<!-- KACE Input Textbox -->
+    <div class="form-group">
+      <input class="form-control" type="text" id="kaceInput" placeholder="KACE Ticket #...">
+    </div>
+    
+	<div class="form-group">
+		<select id="districtInput" class="form-control">
+  		<option value="" disabled selected>Select District...</option>
+    	<option value="HA">HA</option>
+    	<option value="HL">HL</option>
+    	<option value="OA">OA</option>
+    	<option value="OP">OP</option>
+    	<option value="SA">SA</option>
+    	<option value="SL">SL</option>
+    	</select>
+  	</div>
+
+    <div class="form-group">
+      <select id="poInput" class="form-control"></select>
+      <br />
+      <p>NOTE: The "PO # | Model | Part | Inventory" you select will enter the repair using that model and part, then remove one of that part from the available inventory.</p>
+    </div>
+   
+		<button class="btn btn-default" id="submitBtn" onclick="submitForm()">Submit Repair</button>
+	</form>
+</div>
+
+<div class="col-sm-5 col-md-6">
+	<!-- <h6>Add parts to inventory:</h6> -->
+	<form id="partForm" action="#" onsubmit="setTimeout(function () { window.location.reload(); }, 10)">
+		<div class="form-group">
+			<input class="form-control" type="text" id="kaceinvInput" placeholder="KACE Ticket PO #...">
+		</div>
+
+    <div class="form-group">
+	   <select id="cbmodelinvInput" class="form-control">
+  	 <option value="" disabled selected>Select Chromebook Model...</option>
+        <option value="Dell 11 Gen 1">Dell 11 Gen 1</option>
+        <option value="Dell 11 Gen 2">Dell 11 Gen 2</option>
+        <option value="Lenovo 11e">Lenovo 11e</option>
+        <option value="Lenovo x131">Lenovo x131e</option>
+        <option value="Acer CB5-311">Acer CB5-311</option>
+        <option value="Acer C720">Acer C720</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <select id="cbpartinvInput" class="form-control">
+  		  <option value="" disabled selected>Select Part Received...</option>
+      	<option value="LCD">LCD</option>
+      	<option value="LCD Bezel">LCD Bezel</option>
+      	<option value="LCD Glass">LCD Glass</option>
+      	<option value="Keyboard">Keyboard</option>
+      	<option value="Keyboard with Palmrest">Keyboard with Palmrest</option>
+      	<option value="Palmrest">Palmrest</option>
+      	<option value="Palmrest with Touchpad">Palmrest with Touchpad</option>
+      	<option value="Touchpad">Touchpad</option>
+      	<option value="Bottom Case">Bottom Case</option>
+      	<option value="Battery">Battery</option>
+    	</select>
+    </div>
+
+    <div class="form-group">
+      <input class="form-control" type="text" id="quaninvInput" placeholder="Quantity Received...">
+    </div>
+
+		<div class="form-group input-group">
+			<span class="input-group-addon">$</span>
+      <input class="form-control" type="text" id="pocInput" placeholder="Add Part Cost to PO #...">
+		</div>
+    	
+    <button class="btn btn-default" id="submitinvBtn" onclick="submitinvForm()">Submit Inventory</button>
+    <br />
+  </form>
+</div>
+</div>
+</div>
+
+
+<div class="container-fluid">
+<div class="row">
+	<div class="col-md-6">
+	<div class="panel panel-primary">
+ 		<div class="panel-heading">Submitted Repairs</div>
+ 			<table class="table table-striped table-fixed panel-body">
+ 				<thead>
+ 					<tr>
+ 						<th>KACE Ticket #:</th>
+ 						<th>District:</th>
+ 						<th>Model:</th>
+ 						<th>Part:</th>
+ 						<th>Date Entered:</th>
+ 					</tr>
+ 				</thead>
+ 			<tbody id="table_body">
+ 			</tbody>
+ 			</table>
+	</div>
+	</div>
+	<div class="col-md-6">
+	<div class="panel panel-primary">
+		<div class="panel-heading">Available Inventory</div>
+			<table class="table table-fixed table-striped panel-body">
+				<thead>
+					<tr>
+						<th>KACE PO Ticket #:</th>
+						<th>Model:</th>
+						<th>Part:</th>
+						<th>Available:</th>
+						<th>Date Entered:</th>
+					</tr>
+				</thead>
+			<tbody id="invtable_body">
+			</tbody>
+			</table>
+	</div>
+	</div>
+</div>
+</div>
+
+<footer class="footer">
+<div class="container text-center">
+<p>Chromebook Repair and Inventory <br /> BETA v0.6</p>
+</div>
+</footer>
+
+<!-- Firebase script for CRIDv2 -->
+<script src="https://www.gstatic.com/firebasejs/3.6.8/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyA15MHtP9zjcb3UqTgVVY5iGa70DTL8Zso",
+    authDomain: "cridv2-18293.firebaseapp.com",
+    databaseURL: "https://cridv2-18293.firebaseio.com",
+    storageBucket: "cridv2-18293.appspot.com",
+    messagingSenderId: "783799959399"
+  };
+  firebase.initializeApp(config);
+</script>
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
+<script src="scripts/main.js"></script>
+</body>
+</html>

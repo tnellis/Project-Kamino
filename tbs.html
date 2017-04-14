@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/custom.css">
+    <script src="https://www.gstatic.com/firebasejs/3.6.8/firebase.js"></script>
+  	<script>
+  	// Initialize Firebase
+  	var config = {
+    	apiKey: "AIzaSyA15MHtP9zjcb3UqTgVVY5iGa70DTL8Zso",
+    	authDomain: "cridv2-18293.firebaseapp.com",
+    	databaseURL: "https://cridv2-18293.firebaseio.com",
+    	storageBucket: "cridv2-18293.appspot.com",
+    	messagingSenderId: "783799959399"
+  	};
+  	firebase.initializeApp(config);
+  	</script>
+  	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
+  	<script src="scripts/main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+      <!-- Web Application Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <title>CRI</title>
+  </head>
+
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/index.html"><img src="imgs/isd_logo.png" alt="CRI" style="width:128px;height:44px; padding-bottom: 10px;" href="/index.html"></a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/repair.html">Repair Dashboard</a></li>
+      <li class="active"><a href="/tbs.html">TBS Dashboard</a></li>
+    </ul>
+    <form class="form-inline">
+    <button align="right" id="sign-out" class="btn btn-primary navbar-right" onClick="signOut();">Sign Out</button>
+    </form>
+  </div>
+</nav>
+
+<!-- <div class="container-fluid">
+<div class="well row">
+<div class="col-md-12 text-center">
+  <form id="tbsForm" action="#" onsubmit="setTimeout(function () { window.location.reload(); }, 10)">
+    <div class="form-group col-md-2">
+      <input class="form-control" type="text" id="kacetbsInput" placeholder="KACE PO Ticket #...">
+    </div>
+
+  <div class="form-group col-md-2">
+    <select id="cbmodeltbsInput" class="form-control">
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <option value="" disabled selected>Select Chromebook Model...</option>
+      <option value="Dell 11 Gen 1">Dell 11 Gen 1</option>
+      <option value="Dell 11 Gen 2">Dell 11 Gen 2</option>
+      <option value="Lenovo 11e">Lenovo 11e</option>
+      <option value="Lenovo x131">Lenovo x131e</option>
+      <option value="Acer CB5-311">Acer CB5-311</option>
+      <option value="Acer C720">Acer C720</option>
+      </div>
+      </select>
+    </div>
+
+  <div class="form-group col-md-2">
+    <select id="cbparttbsInput" class="form-control">
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <option value="" disabled selected>Select Part Replaced...</option>
+      <option value="LCD">LCD</option>
+      <option value="LCD Bezel">LCD Bezel</option>
+      <option value="LCD Glass">LCD Glass</option>
+      <option value="Keyboard">Keyboard</option>
+      <option value="Keyboard with Palmrest">Keyboard with Palmrest</option>
+      <option value="Palmrest">Palmrest</option>
+      <option value="Palmrest with Touchpad">Palmrest with Touchpad</option>
+      <option value="Touchpad">Touchpad</option>
+      <option value="Bottom Case">Bottom Case</option>
+      <option value="Battery">Battery</option>
+      </div>
+      </select>
+    </div>
+
+    <div class="form-group col-md-2">
+      <input class="form-control" type="text" id="pocInput" placeholder="Change Cost on PO #...">
+    </div>
+   
+    <button class="btn btn-default" id="submitBtn" onclick="submittbsForm()">Amend Info</button>
+  </form>
+</div>
+</div>
+</div> -->
+     <!-- <style>
+      .table-fixed thead {
+        width: 97%;
+      }
+      .table-fixed tbody {
+          height: 408px;
+          overflow-y: auto;
+          width: 100%;
+      }
+      .table-fixed thead, .table-fixed tbody, .table-fixed td {
+          display: block;
+      }
+      .table-fixed tbody td, .table-fixed thead > tr > td {
+          float: left;
+          border-bottom-width: 0;
+      }
+      </style> -->
+
+<div class="container">
+<div class="row">
+  <div class="col-md-12">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <div class="form-group col-md-3">
+        <select id="district-filter" class="form-control">
+          <option selected disabled>Selected a District...</option>
+          <option value="">(All)</option>
+          <option value="HA">HA</option>
+          <option value="HL">HL</option>
+          <option value="OA">OA</option>
+          <option value="OP">OP</option>
+          <option value="SA">SA</option>
+          <option value="SL">SL</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+      <select id="date-filter" class="form-control">
+        <option selected disabled>Select a Month...</option>
+        <option value="">(All)</option>
+        <option value="01">January</option>
+        <option value="02">February</option>
+        <option value="03">March</option>
+        <option value="04">April</option>
+        <option value="05">May</option>
+        <option value="06">June</option>
+        <option value="07">July</option>
+        <option value="08">August</option>
+        <option value="09">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+      </select>
+      </div>
+      <div class="form-group col-md-3">
+      	<select id="ticketType" class="form-control">
+      		<option selected disabled>Ticket Type...</option>
+      		<option value="0">Repair Ticket #:</option>
+      		<option value="5">PO Ticket #:</option>
+      	</select>
+      </div>
+      <div class="form-group col-md-3">
+      <div class="input-group">
+      	<input type="text" id="ticketInput" class="form-control" onkeyup="ticketFilter()" placeholder="Search by Ticket #...">
+      	<div class="input-group-addon">
+      	<span data-toggle="tooltip" data-placement="bottom" title="Use the 'Ticket Type' dropdown menu to select either 'Repair Ticket #' or 'PO Ticket #' for this search." class="glyphicon glyphicon-info-sign"></span>
+      	</div>
+      </div>
+      </div>
+    </div>
+      <table class="table table-striped panel-body" id="tbsTable">
+        <thead>
+          <tr> 
+            <th>Repair Ticket #:</th>
+            <th>District:</th>
+            <th>Model:</th>
+            <th>Part:</th>
+            <th>Part Cost:</th>
+            <th>PO Ticket #:</th>
+            <th>Date Entered:</th>
+          </tr>
+        </thead>
+        <tbody id="tbstable_body">
+        </tbody>
+      </table>
+
+      <script type="text/javascript">
+      // Activate Tooltips.
+      $(document).ready(function(){
+    		$('[data-toggle="tooltip"]').tooltip(); 
+			});
+
+			// Search Functions.
+      (function () {
+        var filters = {
+            district: null,
+            date: null
+          };
+      
+        function updateFilters() {
+          $('.task-list-row').hide().filter(function () {
+          var
+            self = $(this),
+            result = true;
+
+            Object.keys(filters).forEach(function(filter) {
+              if (filters[filter] && (filters[filter] != 'None') && (filters[filter] != 'Any')) {
+                result = result && filters[filter] === self.data(filter);
+              }
+            });
+
+            return result;
+          }).show();
+        }
+
+        function bindDropdownFilters() {
+          Object.keys(filters).forEach(function (filterName) {
+            $('#' + filterName + '-filter').on('change', function () {
+              filters[filterName] = this.value;
+              updateFilters();
+            });
+          });
+        }
+
+        bindDropdownFilters();
+      })();
+			</script>
+			<script type="text/javascript">
+      function ticketFilter() {
+      	var td, i;
+      	var
+          input = document.getElementById("ticketInput");
+		  		index = document.getElementById("ticketType");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("tbsTable");
+          tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[index.value];
+            if (td) {
+              if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+                } else {
+                  tr[i].style.display = "none";
+                }
+            } 
+          }
+        }
+
+      </script> 
+   <!--   <script type="text/javascript">
+
+      // Functions to Search TBS table.
+        function searchTable() {
+          var filter, table, tr, td, i;
+          var
+            inputs = {
+              kaceInput: document.getElementById("kace-filter"),
+              districtInput: document.getElementById("district-filter"),
+              poInput: document.getElementById("po-filter"),
+              dateInput: document.getElementById("date-filter")
+            };
+            found = [];
+            filter = inputs.kaceInput.value.toUpperCase();
+            table = document.getElementById("tbsTable");
+            tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+              if (td.innerHTML.toUpperCase().indexOf(inputs.kaceInput) > -1) {
+                found.push(tr[i]);
+                } else {
+                 	tr[i].style.display = "none";
+                }
+            }
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+              if (td.innerHTML.toUpperCase().indexOf(inputs.districtInput) > -1) {
+                found.push(tr[i]);
+              } else {
+               	tr[i].style.display = "none";
+              }
+            }
+            td = tr[i].getElementsByTagName("td")[5];
+            if (td) {
+              if (td.innerHTML.toUpperCase().indexOf(inputs.poInput) > -1) {
+                found.push(tr[i]);
+              } else {
+               	tr[i].style.display = "none";
+              }
+            }
+            td = tr[i].getElementsByTagName("td")[6];
+            if (td) {
+              if (td.innerHTML.toUpperCase().indexOf(inputs.dateInput) > -1) {
+                found.push(tr[i]);
+              } else {
+               	tr[i].style.display = "none";
+              }
+            }
+          }
+          // Set found array to show rows that matched search inputs.
+          for (i = 0; found[i] < found.length; i++) {
+              tr[i].style.display = "";
+          }
+        }
+
+      /*  function searchMonth() {
+          var input, filter, table, tr, td, i;
+          input = document.getElementById("dateDrop");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("tbsTable");
+          tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[6];
+            if (td) {
+              if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+                } else {
+                  tr[i].style.display = "none";
+                }
+            } 
+          }
+        } */
+      </script> -->
+  </div>
+  </div>
+</div>
+</div>
+
+<br />
+
+
+<footer class="footer">
+<div class="container text-center">
+<p>Chromebook Repair and Inventory <br /> BETA v0.6</p>
+</div>
+</footer>
+</body>
+</html>
